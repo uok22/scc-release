@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: ''
+  description: ''
+
+paths:
+  /login:
+    post:
+      summary: log in
+      x-contracts:
+        - contractId: 1
+          name: Login OK
+          priority: 1
+        - contractId: 2
+          name: Login failed
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+
+        x-contracts:
+          - contractId: 1
+            headers:
+              Content-Type: application/json
+            body:
+              username: robot
+              password: tobor3
+
+          - contractId: 2
+            headers:
+              Content-Type: application/json
+            body:
+              username: robot
+              password: tobor2
+
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+          x-contracts:
+            - contractId: 1
+              body:
+                message: "Welcome back."
+              headers:
+                Content-Type: application/json;charset=UTF-8
+
+        '401':
+          description: Login failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+          x-contracts:
+            - contractId: 2
+              body:
+                message: "Login failed."
+              headers:
+                Content-Type: application/json;charset=UTF-8
